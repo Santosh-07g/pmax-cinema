@@ -1,0 +1,5 @@
+[build]
+builder = "DOCKERFILE"
+
+[deploy]
+startCommand = "python manage.py migrate && gunicorn movie_project.wsgi --bind 0.0.0.0:$PORT"
