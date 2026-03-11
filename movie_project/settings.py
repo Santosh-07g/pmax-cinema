@@ -52,11 +52,11 @@ WSGI_APPLICATION = 'movie_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('MYSQL_DATABASE'),
-        'USER': config('MYSQLUSER'),
-        'PASSWORD': config('MYSQLPASSWORD'),
-        'HOST': config('MYSQLHOST'),
-        'PORT': config('MYSQLPORT'),
+        'NAME': config('MYSQL_DATABASE', default=config('DB_NAME', default='pmax_db')),
+        'USER': config('MYSQLUSER', default=config('DB_USER', default='root')),
+        'PASSWORD': config('MYSQLPASSWORD', default=config('DB_PASSWORD', default='')),
+        'HOST': config('MYSQLHOST', default=config('DB_HOST', default='localhost')),
+        'PORT': config('MYSQLPORT', default=config('DB_PORT', default='3307')),
     }
 }
 
