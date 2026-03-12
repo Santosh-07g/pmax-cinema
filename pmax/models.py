@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 class User(models.Model):
     username = models.CharField(max_length=100,unique=True)
@@ -12,7 +13,7 @@ class Movie(models.Model):
     name = models.CharField(max_length=100)
     language = models.CharField(max_length=100)
     duration = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='movie/')
+    image = CloudinaryField('image')
 
     def __str__(self):
         return self.name
