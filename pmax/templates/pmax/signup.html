@@ -87,6 +87,11 @@ p{
 margin-top:15px;
 font-size:14px;
 }
+a{
+    text-decoration: none;
+    color: red;
+    font-weight: bolder;
+}
 
 </style>
 
@@ -103,6 +108,9 @@ font-size:14px;
 <input type="text" placeholder="Password" name="password" required><br>
 
 <button>Signup</button>
+<p>Already Have Account?
+    <a href="{% url 'login' %}">Sign In</a></p>
+
 
 </form>
 
