@@ -11,10 +11,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://pmax-cinema-production.up.railway.app',
-    'http://pmax-cinema-production.up.railway.app',
+    'https://pmax-cinema.onrender.com',
 ]
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
