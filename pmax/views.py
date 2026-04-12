@@ -4,7 +4,7 @@ from pmax.models import User,Movie,Show,Review,Booking
 from django.views.decorators.cache import never_cache
 
 def home(request):
-  return render(request,"./pmax/home.html")
+  return render(request,"pmax/home.html")
 
 def signup(request):
   if request.method=="POST":
@@ -13,11 +13,11 @@ def signup(request):
     password = request.POST.get("password")
     
     if User.objects.filter(username = username).exists():
-      return render(request, "./pmax/signup.html",{"error":"Username already exist"})
+      return render(request, "pmax/signup.html",{"error":"Username already exist"})
     User.objects.create(username = username,email = email, password = password)
     return redirect("login")
   else:
-    return render(request,"./pmax/signup.html")
+    return render(request,"pmax/signup.html")
     
 def login(request):
   if request.method=='POST':
@@ -30,9 +30,9 @@ def login(request):
       request.session['user-name'] = user.username
       return redirect('dashboard')
     except:
-      return render(request,'./pmax/login.html',{'error':'Invalid credentials'})
+      return render(request,'pmax/login.html',{'error':'Invalid credentials'})
   else:
-    return render(request,'./pmax/login.html')
+    return render(request,'pmax/login.html')
   
 @never_cache
 def dashboard(request):
@@ -44,7 +44,7 @@ def dashboard(request):
     shows_today = Show.objects.count()        # ← fixed: TimeField has no date, count all shows
     total_bookings = Booking.objects.count()
 
-    return render(request, './pmax/dashboard.html', {
+    return render(request, 'pmax/dashboard.html', {
         'movies': movies,
         'shows_today': shows_today,
         'total_bookings': total_bookings,
@@ -76,7 +76,7 @@ def movie_detail(request,movie_id):
     )
     return redirect(f"/movie_detail/{movie_id}")
 
-  return render(request,'./pmax/movie_detail.html',{'movie':movie,'shows':show,'reviews':review})
+  return render(request,'pmax/movie_detail.html',{'movie':movie,'shows':show,'reviews':review})
 
 @never_cache  
 def book_show(request,show_id):
@@ -107,12 +107,12 @@ def book_show(request,show_id):
     selected_seats=request.POST.get('selected_seats')
 
     if not selected_seats:
-      return render(request,"./pmax/seat_selection.html",{'show':show,'booked_seats':booked_seats,"seats":seats,"error":"please select atleast on seat"})
+      return render(request,"pmax/seat_selection.html",{'show':show,'booked_seats':booked_seats,"seats":seats,"error":"please select atleast on seat"})
     
     seat_list=selected_seats.split(',')
 
     if len(seat_list)>show.available_seats:
-      return render(request,"./pmax/seat_selection.html",{'show':show,'booked_seats':booked_seats,"seats":seats,"error":"Not enaugh seats"})
+      return render(request,"pmax/seat_selection.html",{'show':show,'booked_seats':booked_seats,"seats":seats,"error":"Not enaugh seats"})
 
     total_price=len(seat_list)*show.price
     user=User.objects.get(id=user_id)
@@ -125,7 +125,7 @@ def book_show(request,show_id):
 
     show.available_seats=show.available_seats-len(seat_list)
     show.save()
-    return render(request, './pmax/success.html', {
+    return render(request, 'pmax/success.html', {
     'show': show,
     'selected_seats': seat_list,
     'total_price': total_price,
@@ -133,4 +133,4 @@ def book_show(request,show_id):
 
 
   
-  return render(request,"./pmax/seat_selection.html",{"show":show,'booked_seats':booked_seats,'seats':seats})
+  return render(request,"pmax/seat_selection.html",{"show":show,'booked_seats':booked_seats,'seats':seats})
