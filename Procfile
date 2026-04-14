@@ -1,1 +1,1 @@
-web: gunicorn movie_project.wsgi --log-file -
+web: gunicorn movie_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
