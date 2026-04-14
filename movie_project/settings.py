@@ -13,7 +13,6 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     'https://pmax-cinema.onrender.com',
 ]
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,11 +58,11 @@ WSGI_APPLICATION = 'movie_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('MYSQL_DATABASE', default='pmax_db'),
-        'USER': config('MYSQLUSER', default='root'),
-        'PASSWORD': config('MYSQLPASSWORD', default=''),
-        'HOST': config('MYSQLHOST', default='localhost'),
-        'PORT': config('MYSQLPORT', default='3306'),
+        'NAME': config('MYSQL_DATABASE', default=config('DB_NAME', default='pmax_db')),
+        'USER': config('MYSQLUSER', default=config('DB_USER', default='root')),
+        'PASSWORD': config('MYSQLPASSWORD', default=config('DB_PASSWORD', default='')),
+        'HOST': config('MYSQLHOST', default=config('DB_HOST', default='localhost')),
+        'PORT': config('MYSQLPORT', default=config('DB_PORT', default='3307')),
     }
 }
 
@@ -81,6 +80,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 _static_dir = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [_static_dir] if os.path.exists(_static_dir) else []
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -90,10 +90,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Cloudinary
 cloudinary.config(
-    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
-    api_key=config('CLOUDINARY_API_KEY'),
-    api_secret=config('CLOUDINARY_API_SECRET'),
+    cloud_name = config('CLOUDINARY_CLOUD_NAME'),
+    api_key    = config('CLOUDINARY_API_KEY'),
+    api_secret = config('CLOUDINARY_API_SECRET'),
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
