@@ -13,6 +13,7 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     'https://pmax-cinema.onrender.com',
 ]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -62,9 +63,15 @@ DATABASES = {
         'USER': config('MYSQLUSER', default=config('DB_USER', default='root')),
         'PASSWORD': config('MYSQLPASSWORD', default=config('DB_PASSWORD', default='')),
         'HOST': config('MYSQLHOST', default=config('DB_HOST', default='localhost')),
-        'PORT': config('MYSQLPORT', default=config('DB_PORT', default='3307')),
+        'PORT': config('MYSQLPORT', default=config('DB_PORT', default='3306')),
     }
 }
+
+# ✅ Session fix for Render (ephemeral filesystem)
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SECURE = True
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -80,7 +87,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 _static_dir = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [_static_dir] if os.path.exists(_static_dir) else []
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
